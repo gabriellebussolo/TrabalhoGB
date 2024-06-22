@@ -30,7 +30,7 @@ def record_video():
     out.release()
     cv.destroyAllWindows()
 
-# Choose image or record video
+print("BEM VINDO!")
 print('Escolha uma opcao:\n')
 print('1 - Escolher Imagem')
 print('2 - Gravar Video')
@@ -48,7 +48,11 @@ if choice == '1':
         print('Erro ao carregar imagem')
         sys.exit()
 
-    img2 = img.copy()  # cria uma copia da original
+    img2 = img.copy()  
+    
+elif choice == '2':
+    record_video()
+
 
 
 print('Escolha uma opcao de filtro:\n')
