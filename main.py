@@ -30,7 +30,8 @@ def record_video():
     out.release()
     cv.destroyAllWindows()
 
-print("BEM VINDO!")
+# INICIO - OPCAO DE ENVIAR IMAGEM OU GRAVAR VIDEO
+print("\n--------- BEM VINDO! --------- ")
 print('Escolha uma opcao:\n')
 print('1 - Escolher Imagem')
 print('2 - Gravar Video')
@@ -48,33 +49,45 @@ if choice == '1':
         print('Erro ao carregar imagem')
         sys.exit()
 
+    print('\nImagem adicionada!')
     img2 = img.copy()  
-    
+
 elif choice == '2':
     record_video()
 
 
-
-print('Escolha uma opcao de filtro:\n')
+#  ACOES - OPCAO DE COLAR STICKER OU ADICIONAR FILTRO
+print('\nEscolha uma opcao:\n')
 print('0 - Sair')
-print('1 - Grayscale')
-print('2 - Negativo')
-print('3 - Binarização')
+print('1 - Aplicar Filtro')
+print('2 - Colar Sticker')
 
-opcao = input()
+acao = input()
 
-if opcao == '1':
-    ft.grayscale(img2)
-    cv.imshow('Grayscale', img2)
-    k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
-elif opcao == '2':
-    ft.negativo(img2)
-    cv.imshow('Negativo', img2)
-    k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
-elif opcao == '3':
-    print('Insira o linear que deverá ser considerado:')
-    l = int(input())
-    ft.binarizacao(img2, l)
-    cv.imshow('binarizacao', img2)
-    k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
-opcao = input()
+if acao == "1":
+
+    print('\nEscolha uma opcao de filtro:\n')
+    print('0 - Sair')
+    print('1 - Grayscale')
+    print('2 - Negativo')
+    print('3 - Binarização')
+
+    opcao = input()
+
+    if opcao == '1':
+        ft.grayscale(img2)
+        cv.imshow('Grayscale', img2)
+        k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+    elif opcao == '2':
+        ft.negativo(img2)
+        cv.imshow('Negativo', img2)
+        k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+    elif opcao == '3':
+        print('Insira o linear que deverá ser considerado:')
+        l = int(input())
+        ft.binarizacao(img2, l)
+        cv.imshow('binarizacao', img2)
+        k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+    #opcao = input()
+elif acao == "2":
+    print("sticker")
