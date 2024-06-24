@@ -70,13 +70,14 @@ if acao == "1":
     print('0 - Sair')
     print('1 - Grayscale')
     print('2 - Negativo')
-    print('3 - Binarização')
+    print('3 - Binarização') 
+    print('4 - Quente')
 
     opcao = input()
 
     if opcao == '1':
-        ft.grayscale(img2)
-        cv.imshow('Grayscale', img2)
+        img_cinza = ft.grayscale(img2)
+        cv.imshow('Grayscale', img_cinza)
         k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
     elif opcao == '2':
         ft.negativo(img2)
@@ -86,8 +87,13 @@ if acao == "1":
         print('Insira o linear que deverá ser considerado:')
         l = int(input())
         ft.binarizacao(img2, l)
-        cv.imshow('binarizacao', img2)
+        cv.imshow('Binarizacao', img2)
         k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+    elif opcao == '4':
+       cor = [240, 86, 86]
+       ft.colorizacao(img2, cor)
+       cv.imshow('Quente', img2)
+       k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
     #opcao = input()
 elif acao == "2":
     print("sticker")
