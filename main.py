@@ -72,6 +72,7 @@ if acao == "1":
     print('2 - Negativo')
     print('3 - Binarização') 
     print('4 - Quente')
+    print('5 - Equalização de um histograma')
 
     opcao = input()
 
@@ -94,6 +95,10 @@ if acao == "1":
        ft.colorizacao(img2, cor)
        cv.imshow('Quente', img2)
        k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+    elif opcao == '5':
+        equalizacao = ft.equalizacao_hist(img2)
+        cv.imshow('Equalizacao de um histograma', equalizacao)
+        k = cv.waitKey(0)
     #opcao = input()
 elif acao == "2":
     print("sticker")

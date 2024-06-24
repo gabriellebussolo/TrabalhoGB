@@ -38,3 +38,7 @@ def colorizacao(img, cor):
             img.itemset((i,j,0),img.item(i,j,0) | cor[0]) # canal azul - 0 - B
             img.itemset((i,j,1),img.item(i,j,1) | cor[1]) # canal verde - 1 - G
             img.itemset((i,j,2),img.item(i,j,2) | cor[2]) # canal vermelho - 2 - R
+            
+def equalizacao_hist(img):
+    cinza = grayscale(img)
+    return cv.equalizeHist(cinza) # equaliza uma imagem que esta em grayscale e que tenha 1 canal apenas
