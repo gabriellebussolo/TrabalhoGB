@@ -15,25 +15,6 @@ def choose_image():
     filename = askopenfilename()  # show an "Open" dialog box and return the path to the selected file
     return filename
 
-def record_video():
-    cap = cv.VideoCapture(0)
-    fourcc = cv.VideoWriter_fourcc(*'XVID')
-    out = cv.VideoWriter('output.avi', fourcc, 20.0, (640, 480))
-
-    while(cap.isOpened()):
-        ret, frame = cap.read()
-        if ret:
-            out.write(frame)
-            cv.imshow('Recording Video', frame)
-            if cv.waitKey(1) & 0xFF == ord('q'):
-                break
-        else:
-            break
-
-    cap.release()
-    out.release()
-    cv.destroyAllWindows()
-
 # INICIO - OPCAO DE ENVIAR IMAGEM OU GRAVAR VIDEO
 print("\n--------- BEM VINDO! --------- ")
 print('Escolha uma opcao:\n')
