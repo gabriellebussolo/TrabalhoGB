@@ -36,10 +36,6 @@ if choice == '1':
 
     print('\nImagem adicionada!') 
 
-#elif choice == '2':
-    #record_video()
-
-
 #  ACOES - OPCAO DE COLAR STICKER OU ADICIONAR FILTRO
 print('\nEscolha uma opcao:\n')
 print('0 - Sair')
@@ -118,6 +114,19 @@ while(acao != '0'):
             
             cv.imshow(texto, img_com_filtro)
             k = cv.waitKey(0)
+
+            print('Você deseja salvar essa foto?')
+            print('1 - Sim')
+            print('2 - Nao')
+            salvar = input()
+
+            if salvar == '1':
+                print('Digite o nome do arquivo que será salvo:')
+                arquivo = input()
+                arquivo = arquivo + '.jpg'
+                cv.imwrite(arquivo, img_com_filtro)
+                print('Salvo!')
+
             cv.destroyAllWindows()
         else:
             if opcao == '6' or opcao == '7':
@@ -186,6 +195,18 @@ while(acao != '0'):
                 # desired button of your choice
                 if cv.waitKey(1) & 0xFF == ord('q'):
                     break
+
+            print('Você deseja salvar o último frame do vídeo?')
+            print('1 - Sim')
+            print('2 - Nao')
+            salvar = input()
+
+            if salvar == '1':
+                print('Digite o nome do arquivo que será salvo:')
+                arquivo = input()
+                arquivo = arquivo + '.jpg'
+                cv.imwrite(arquivo, frame_com_filtro)
+                print('Salvo!')
 
             # After the loop release the cap object
             capture.release()
