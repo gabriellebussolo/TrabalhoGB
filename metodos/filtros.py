@@ -32,23 +32,28 @@ def equalizacao_hist(img):
 
 def average_blur(img, opcao):
     if opcao == '1':
-        blurred = cv.blur(img, (5,5))
+        return cv.blur(img, (5,5))
     elif(opcao == '2'):
-        blurred = cv.blur(img, (9,9))
+        return cv.blur(img, (9,9))
     else:
-        blurred = cv.blur(img, (15,15))
-    return blurred
+        return cv.blur(img, (15,15))
 
 def gaussian_blur(img, opcao):
     if opcao == '1':
-        blurred = cv.GaussianBlur(img, (5,5), 0) #colocando 0 o opencv calcula com base no kernel
+        return cv.GaussianBlur(img, (5,5), 0) #colocando 0 o opencv calcula com base no kernel
     elif(opcao == '2'):
-        blurred = cv.GaussianBlur(img, (9,9), 0)
+        return cv.GaussianBlur(img, (9,9), 0)
     else:
-        blurred = cv.GaussianBlur(img, (15,15), 0)
-    return blurred
+        return cv.GaussianBlur(img, (15,15), 0)
 
 def bordas_canny(img):
     gray = grayscale(img)
-    bordas = cv.Canny(gray, 100, 200)
-    return bordas
+    return cv.Canny(gray, 100, 200)
+
+def dilatacao_bordas(img):
+    bordas = bordas_canny(img)
+    return cv.dilate(bordas,(9,9),iterations = 1)
+
+def erosao(img):
+    bordas = bordas_canny(img)
+    return cv.erode(bordas,(15,15),iterations = 1)

@@ -77,6 +77,8 @@ while(acao != '0'):
         print('6 - Blur usando média da vizinhança')
         print('7 - Gaussian Blur')
         print('8 - Detecção de bordas com Canny')
+        print('9 - Dilatação de bordas Canny')
+        print('10 - Erosão das bordas')
         opcao = input()
 
         if opcao == '1':
@@ -113,6 +115,7 @@ while(acao != '0'):
             print('2 - 9x9')
             print('3 - 15x15') 
             kernel = input()
+            
             if opcao == '6':
                 blurred = ft.average_blur(img, kernel)
                 cv.imshow('Average blur', blurred)
@@ -121,10 +124,20 @@ while(acao != '0'):
                 blurred_gaussian = ft.gaussian_blur(img, kernel)
                 cv.imshow('Gaussian blur', blurred_gaussian)
                 k = cv.waitKey(0)
-                
+                     
         elif opcao == '8':
             bordas = ft.bordas_canny(img)
-            cv.imshow('Detecção de bordas com Canny', bordas)
+            cv.imshow('Deteccao de bordas com Canny', bordas)
+            k = cv.waitKey(0)
+        
+        elif opcao == '9':
+            dilatado = ft.dilatacao_bordas(img)
+            cv.imshow('Dilatacao de bordas Canny', dilatado)
+            k = cv.waitKey(0)
+            
+        else:
+            erosao = ft.erosao(img)
+            cv.imshow('Erosao das bordas', erosao)
             k = cv.waitKey(0)
                 
     elif acao == "2":
