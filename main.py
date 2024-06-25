@@ -139,6 +139,16 @@ while(acao != '0'):
             k = cv.waitKey(0)
             cv.destroyAllWindows()
         else:
+            if opcao == '6' or opcao == '7':
+                print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
+                print('1 - 5x5')
+                print('2 - 9x9')
+                print('3 - 15x15') 
+                kernel = input()
+            elif opcao == '3':
+                print('Insira o linear que deverá ser considerado:')
+                l = int(input())
+                
             capture = cv.VideoCapture(0)
             if not capture.isOpened():
                 print('Unable to open')
@@ -157,8 +167,6 @@ while(acao != '0'):
                     texto = 'Negativo'
                     
                 elif opcao == '3':
-                    print('Insira o linear que deverá ser considerado:')
-                    l = int(input())
                     frame_com_filtro = ft.binarizacao(frame, l)
                     texto = 'Binarizacao'
                     
@@ -171,19 +179,12 @@ while(acao != '0'):
                     frame_com_filtro = ft.equalizacao_hist(frame)
                     texto = 'Equalizacao de um histograma'
                     
-                elif opcao == '6' or opcao == '7':
-                    print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
-                    print('1 - 5x5')
-                    print('2 - 9x9')
-                    print('3 - 15x15') 
-                    kernel = input()
-                    
-                    if opcao == '6':
-                        frame_com_filtro = ft.average_blur(frame, kernel)
-                        texto = 'Average blur'
-                    else:
-                        frame_com_filtro = ft.gaussian_blur(frame, kernel)
-                        texto = 'Gaussian blur'
+                elif opcao == '6':
+                    frame_com_filtro = ft.average_blur(frame, kernel)
+                    texto = 'Average blur'
+                elif opcao == '7':
+                    frame_com_filtro = ft.gaussian_blur(frame, kernel)
+                    texto = 'Gaussian blur'
                             
                 elif opcao == '8':
                     frame_com_filtro = ft.bordas_canny(frame)
@@ -197,7 +198,7 @@ while(acao != '0'):
                     frame_com_filtro = ft.erosao(frame)
                     texto = 'Erosao das bordas'
                 # Display the resulting frame
-                cv.imshow('frame', frame_com_filtro)
+                cv.imshow(texto, frame_com_filtro)
 
                 # the 'q' button is set as the
                 # quitting button you may use any
@@ -208,7 +209,7 @@ while(acao != '0'):
             # After the loop release the cap object
             capture.release()
             # Destroy all the windows
-            capture.destroyAllWindows()
+            cv.destroyAllWindows()
         
     elif acao == '2':
         print("sticker")
