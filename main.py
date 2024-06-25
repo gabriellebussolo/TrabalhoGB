@@ -147,22 +147,69 @@ while(acao != '0'):
                 ret, frame = capture.read()
                 if frame is None:
                     break
+
+                if opcao == '1':
+                    frame_com_filtro = ft.grayscale(frame)
+                    texto = 'Grayscale'
+                
+                elif opcao == '2':
+                    frame_com_filtro = ft.negativo(frame)
+                    texto = 'Negativo'
+                    
+                elif opcao == '3':
+                    print('Insira o linear que deverá ser considerado:')
+                    l = int(input())
+                    frame_com_filtro = ft.binarizacao(frame, l)
+                    texto = 'Binarizacao'
+                    
+                elif opcao == '4':
+                    cor = [242, 33, 33]
+                    frame_com_filtro = ft.colorizacao(frame, cor)
+                    texto = 'Rosado'
+                    
+                elif opcao == '5':
+                    frame_com_filtro = ft.equalizacao_hist(frame)
+                    texto = 'Equalizacao de um histograma'
+                    
+                elif opcao == '6' or opcao == '7':
+                    print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
+                    print('1 - 5x5')
+                    print('2 - 9x9')
+                    print('3 - 15x15') 
+                    kernel = input()
+                    
+                    if opcao == '6':
+                        frame_com_filtro = ft.average_blur(frame, kernel)
+                        texto = 'Average blur'
+                    else:
+                        frame_com_filtro = ft.gaussian_blur(frame, kernel)
+                        texto = 'Gaussian blur'
+                            
+                elif opcao == '8':
+                    frame_com_filtro = ft.bordas_canny(frame)
+                    texto = 'Deteccao de bordas com Canny'
+                
+                elif opcao == '9':
+                    frame_com_filtro = ft.dilatacao_bordas(frame)
+                    texto = 'Dilatacao de bordas Canny'
+                    
+                else:
+                    frame_com_filtro = ft.erosao(frame)
+                    texto = 'Erosao das bordas'
                 # Display the resulting frame
-                frameCanny = cv.Canny(frame,50,100)
-                cv.imshow('frame', frameCanny)
-  
-            # the 'q' button is set as the
-            # quitting button you may use any
-            # desired button of your choice
-            if cv.waitKey(1) & 0xFF == ord('q'):
-                break
-  
+                cv.imshow('frame', frame_com_filtro)
+
+                # the 'q' button is set as the
+                # quitting button you may use any
+                # desired button of your choice
+                if cv.waitKey(1) & 0xFF == ord('q'):
+                    break
+
             # After the loop release the cap object
             capture.release()
             # Destroy all the windows
             capture.destroyAllWindows()
         
-                
     elif acao == '2':
         print("sticker")
 
