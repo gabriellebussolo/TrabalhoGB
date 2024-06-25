@@ -73,7 +73,8 @@ if acao == "1":
     print('3 - Binarização') 
     print('4 - Quente')
     print('5 - Equalização de um histograma')
-
+    print('6 - Blur usando média da vizinhança')
+    print('7 - Gaussian Blur')
     opcao = input()
 
     if opcao == '1':
@@ -83,22 +84,39 @@ if acao == "1":
     elif opcao == '2':
         ft.negativo(img2)
         cv.imshow('Negativo', img2)
-        k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+        k = cv.waitKey(0)
     elif opcao == '3':
         print('Insira o linear que deverá ser considerado:')
         l = int(input())
         ft.binarizacao(img2, l)
         cv.imshow('Binarizacao', img2)
-        k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+        k = cv.waitKey(0)
     elif opcao == '4':
        cor = [240, 86, 86]
        ft.colorizacao(img2, cor)
        cv.imshow('Quente', img2)
-       k = cv.waitKey(0) # faz com que se eu clicar em qualquer tecla a imagem feche
+       k = cv.waitKey(0)
     elif opcao == '5':
         equalizacao = ft.equalizacao_hist(img2)
         cv.imshow('Equalizacao de um histograma', equalizacao)
         k = cv.waitKey(0)
-    #opcao = input()
+    elif opcao == '6':
+        print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
+        print('1 - 5x5')
+        print('2 - 9x9')
+        print('3 - 15x15') 
+        kernel = input()
+        blurred = ft.average_blur(img2, kernel)
+        cv.imshow('Average blur', blurred)
+        k = cv.waitKey(0)
+    elif opcao == '7':
+        print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
+        print('1 - 5x5')
+        print('2 - 9x9')
+        print('3 - 15x15') 
+        kernel = input()
+        blurred_gaussian = ft.gaussian_blur(img2, kernel)
+        cv.imshow('Gaussian blur', blurred_gaussian)
+        k = cv.waitKey(0)
 elif acao == "2":
     print("sticker")

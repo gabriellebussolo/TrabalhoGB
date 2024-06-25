@@ -1,7 +1,7 @@
 import cv2 as cv
 
 def grayscale(img):
-    return cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    return cv.cvtColor(img, cv.COLOR_BGR2GRAY) #converte a imagem para grayscale com um canal
 
 def negativo(img):
     # muda a cor de pixel a pixel
@@ -42,3 +42,21 @@ def colorizacao(img, cor):
 def equalizacao_hist(img):
     cinza = grayscale(img)
     return cv.equalizeHist(cinza) # equaliza uma imagem que esta em grayscale e que tenha 1 canal apenas
+
+def average_blur(img, opcao):
+    if opcao == '1':
+        blurred = cv.blur(img, (5,5))
+    elif(opcao == '2'):
+        blurred = cv.blur(img, (9,9))
+    else:
+        blurred = cv.blur(img, (15,15))
+    return blurred
+
+def gaussian_blur(img, opcao):
+    if opcao == '1':
+        blurred = cv.GaussianBlur(img, (5,5), 0) #colocando 0 o opencv calcula com base no kernel
+    elif(opcao == '2'):
+        blurred = cv.GaussianBlur(img, (9,9), 0)
+    else:
+        blurred = cv.GaussianBlur(img, (15,15), 0)
+    return blurred
