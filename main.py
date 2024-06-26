@@ -226,16 +226,59 @@ while acao != '0':
 
         sticker_index = int(input())
         sticker = stickers[sticker_index][1]
-
         print("Clique na imagem para posicionar o sticker.")
-        cv.imshow('image', img)
-        cv.setMouseCallback('image', stk.mouse_click, {'img': img, 'stickers': stickers, 'sticker': sticker})
 
-        
-        # Wait until a key is pressed to proceed
-        cv.waitKey(0)
-        cv.destroyAllWindows()
+        if choice == '1':
+            cv.imshow('image', img)
+            cv.setMouseCallback('image', stk.mouse_click, {'img': img, 'stickers': stickers, 'sticker': sticker})
 
+            # Wait until a key is pressed to proceed
+            cv.waitKey(0)
+            cv.destroyAllWindows()
+
+            print('Você deseja salvar essa foto?')
+            print('1 - Sim')
+            print('2 - Nao')
+            salvar = input()
+
+            if salvar == '1':
+                print('Digite o nome do arquivo que será salvo:')
+                arquivo = input()
+                arquivo = arquivo + '.jpg'
+                cv.imwrite(arquivo, img)
+                print('Salvo!')
+        else:
+            capture = cv.VideoCapture(0)
+            if not capture.isOpened():
+                print('Unable to open')
+                exit(0)
+            while True:
+                ret, frame = capture.read()
+                if frame is None:
+                    break
+                cv.imshow('video', frame)
+                cv.setMouseCallback('video', stk.mouse_click, {'img': frame, 'stickers': stickers, 'sticker': sticker})
+
+                if cv.waitKey(1) & 0xFF == ord('q'):
+                    break
+
+            print('Você deseja salvar o último frame do vídeo?')
+            print('1 - Sim')
+            print('2 - Nao')
+            salvar = input()
+
+            if salvar == '1':
+                print('Digite o nome do arquivo que será salvo:')
+                arquivo = input()
+                arquivo = arquivo + '.jpg'
+                cv.imwrite(arquivo, frame)
+                print('Salvo!')
+
+            # After the loop release the cap object
+            capture.release()
+            # Destroy all the windows
+            cv.destroyAllWindows()
+            
     # Actions - option to paste sticker or add filter
     print('\nEscolha uma opcao:\n')
     print('0 - Sair')
