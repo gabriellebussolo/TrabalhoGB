@@ -17,6 +17,8 @@ def choose_image():
 # Initialize global variables
 img = None
 sticker = None
+x = 100
+y = 50
 
 # Start - option to send image or record video
 print("\n--------- BEM VINDO! --------- ")
@@ -256,11 +258,27 @@ while acao != '0':
                 ret, frame = capture.read()
                 if frame is None:
                     break
+                #cv.setMouseCallback('video', stk.mouse_click, {'img': frame, 'stickers': stickers, 'sticker': sticker})
+                frame = stk.overlay(frame, sticker, x, y)
                 cv.imshow('video', frame)
-                cv.setMouseCallback('video', stk.mouse_click, {'img': frame, 'stickers': stickers, 'sticker': sticker})
-
-                if cv.waitKey(1) & 0xFF == ord('q'):
+                
+                key = cv.waitKey(1) & 0xFF
+                if key == ord('q'):
                     break
+                elif key == ord('a'):
+                    if x-15 >= 0:
+                        x -= 15
+                    else:
+                        print('Nao eh possivel mover mais a esquerda.')
+                elif key == ord('s'):
+                    y += 15
+                elif key == ord('w'):
+                    if y-15 >= 0:
+                        y -= 15
+                    else:
+                        print('Nao eh possivel mover mais a cima.')
+                elif key == ord('d'):
+                    x += 15
 
             print('Você deseja salvar o último frame do vídeo?')
             print('1 - Sim')
