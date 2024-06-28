@@ -90,26 +90,26 @@ while acao != '0':
         if choice == '1':
             if opcao == '1':
                 img_com_filtro = ft.grayscale(img)
-                texto = 'Grayscale'
+                print('Filtro de grayscale aplicado')
 
             elif opcao == '2':
                 img_com_filtro = ft.negativo(img)
-                texto = 'Negativo'
+                print('Filtro negativo aplicado')
 
             elif opcao == '3':
                 print('Insira o linear que deverá ser considerado:')
                 l = int(input())
                 img_com_filtro = ft.binarizacao(img, l)
-                texto = 'Binarizacao'
+                print('Filtro de binarização aplicado.')
 
             elif opcao == '4':
                 cor = [242, 33, 33]
                 img_com_filtro = ft.colorizacao(img, cor)
-                texto = 'Rosado'
+                print('Filtro rosado aplicado.')
 
             elif opcao == '5':
                 img_com_filtro = ft.equalizacao_hist(img)
-                texto = 'Equalizacao de um histograma'
+                print('Filtro de equalização de um histograma aplicado.')
 
             elif opcao == '6' or opcao == '7':
                 print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
@@ -120,24 +120,25 @@ while acao != '0':
 
                 if opcao == '6':
                     img_com_filtro = ft.average_blur(img, kernel)
-                    texto = 'Average blur'
+                    print('Filtro de Average blur aplicado')
                 else:
                     img_com_filtro = ft.gaussian_blur(img, kernel)
-                    texto = 'Gaussian blur'
+                    print('Filtro de Gaussian blur aplicado.')
 
             elif opcao == '8':
                 img_com_filtro = ft.bordas_canny(img)
-                texto = 'Deteccao de bordas com Canny'
+                print('Filtro de d eteccao de bordas com Canny aplicado.')
 
             elif opcao == '9':
                 img_com_filtro = ft.dilatacao_bordas(img)
-                texto = 'Dilatacao de bordas Canny'
+                print('Filtro de dilatacao de bordas Canny aplicado.')
 
             else:
                 img_com_filtro = ft.erosao(img)
-                texto = 'Erosao das bordas'
+                print('Filtro de erosao das bordas aplicado.')
 
-            cv.imshow(texto, img_com_filtro)
+            # Displays the new image with the filter applied
+            cv.imshow('Imagem modificada', img_com_filtro)
             k = cv.waitKey(0)
 
             # Verify if the user would like to save the image
