@@ -270,7 +270,6 @@ while acao != '0':
                 # se clicar S, move o sticker para baixo
                 elif key == ord('s'):
                     if y+15 < 600:
-                        print(y)
                         y += 15
                 # se clicar W, move o sticker para cima
                 elif key == ord('w'):
@@ -279,7 +278,6 @@ while acao != '0':
                 # se clicar D, move o sticker para a direita
                 elif key == ord('d'):
                     if x+15 < 800:
-                        print(x)
                         x += 15
 
             # Verify if the user would like to save the last frame of the video
