@@ -7,6 +7,12 @@ from tkinter.filedialog import askopenfilename
 import numpy as np
 import os
 
+# Initialize global variables
+img = None
+sticker = None
+x = 100
+y = 50
+texto = 'original'
 
 # Function to choose an image
 def choose_image():
@@ -14,11 +20,22 @@ def choose_image():
     filename = askopenfilename()
     return filename
 
-# Initialize global variables
-img = None
-sticker = None
-x = 100
-y = 50
+# Function to save image
+def save_image(img, tipo):
+    if tipo == 'imagem':
+        print('Você deseja salvar a imagem modificada?')
+    else:
+        print('Você deseja salvar o último frame do vídeo?')
+    print('1 - Sim')
+    print('2 - Nao')
+    salvar = input()
+
+    if salvar == '1':
+        print('Digite o nome do arquivo que será salvo:')
+        arquivo = input()
+        arquivo = arquivo + '.jpg'
+        cv.imwrite(arquivo, img)
+        print('Salvo!')
 
 # Start - option to send image or record video
 print("\n--------- BEM VINDO! --------- ")
@@ -28,6 +45,7 @@ print('2 - Gravar Video')
 
 choice = input()
 
+# If user chooses 1, open an image
 if choice == '1':
     img_path = choose_image()
     if not img_path:
@@ -48,7 +66,6 @@ print('1 - Aplicar Filtro')
 print('2 - Colar Sticker')
 
 acao = input()
-texto = 'original'
 
 stickers = stk.load_stickers()
 sticker_index = 0
@@ -123,17 +140,8 @@ while acao != '0':
             cv.imshow(texto, img_com_filtro)
             k = cv.waitKey(0)
 
-            print('Você deseja salvar essa foto?')
-            print('1 - Sim')
-            print('2 - Nao')
-            salvar = input()
-
-            if salvar == '1':
-                print('Digite o nome do arquivo que será salvo:')
-                arquivo = input()
-                arquivo = arquivo + '.jpg'
-                cv.imwrite(arquivo, img_com_filtro)
-                print('Salvo!')
+            # Verify if the user would like to save the image
+            save_image(img_com_filtro, 'imagem')
 
             cv.destroyAllWindows()
         else:
@@ -204,17 +212,8 @@ while acao != '0':
                 if cv.waitKey(1) & 0xFF == ord('q'):
                     break
 
-            print('Você deseja salvar o último frame do vídeo?')
-            print('1 - Sim')
-            print('2 - Nao')
-            salvar = input()
-
-            if salvar == '1':
-                print('Digite o nome do arquivo que será salvo:')
-                arquivo = input()
-                arquivo = arquivo + '.jpg'
-                cv.imwrite(arquivo, frame_com_filtro)
-                print('Salvo!')
+            # Verify if the user would like to save the last frame of the video
+            save_image(frame_com_filtro, 'video')
 
             # After the loop release the cap object
             capture.release()
@@ -238,19 +237,15 @@ while acao != '0':
             cv.waitKey(0)
             cv.destroyAllWindows()
 
-            print('Você deseja salvar essa foto?')
-            print('1 - Sim')
-            print('2 - Nao')
-            salvar = input()
-
-            if salvar == '1':
-                print('Digite o nome do arquivo que será salvo:')
-                arquivo = input()
-                arquivo = arquivo + '.jpg'
-                cv.imwrite(arquivo, img)
-                print('Salvo!')
+            # Verify if the user would like to save the image
+            save_image(frame_com_filtro, 'imagem')
         else:
             capture = cv.VideoCapture(0)
+
+            # Change the window size
+            capture.set(cv.CAP_PROP_FRAME_WIDTH, 800)
+            capture.set(cv.CAP_PROP_FRAME_HEIGHT, 800)
+
             if not capture.isOpened():
                 print('Unable to open')
                 exit(0)
@@ -258,39 +253,37 @@ while acao != '0':
                 ret, frame = capture.read()
                 if frame is None:
                     break
-                #cv.setMouseCallback('video', stk.mouse_click, {'img': frame, 'stickers': stickers, 'sticker': sticker})
+
                 frame = stk.overlay(frame, sticker, x, y)
                 cv.imshow('video', frame)
                 
                 key = cv.waitKey(1) & 0xFF
+                #cv.setMouseCallback('video', stk.mouse_click, {'img': frame, 'stickers': stickers, 'sticker': sticker})
+
                 if key == ord('q'):
                     break
+
+                # se clicar A, move o sticker para a esquerda
                 elif key == ord('a'):
                     if x-15 >= 0:
                         x -= 15
-                    else:
-                        print('Nao eh possivel mover mais a esquerda.')
+                # se clicar S, move o sticker para baixo
                 elif key == ord('s'):
-                    y += 15
+                    if y+15 < 600:
+                        print(y)
+                        y += 15
+                # se clicar W, move o sticker para cima
                 elif key == ord('w'):
                     if y-15 >= 0:
                         y -= 15
-                    else:
-                        print('Nao eh possivel mover mais a cima.')
+                # se clicar D, move o sticker para a direita
                 elif key == ord('d'):
-                    x += 15
+                    if x+15 < 800:
+                        print(x)
+                        x += 15
 
-            print('Você deseja salvar o último frame do vídeo?')
-            print('1 - Sim')
-            print('2 - Nao')
-            salvar = input()
-
-            if salvar == '1':
-                print('Digite o nome do arquivo que será salvo:')
-                arquivo = input()
-                arquivo = arquivo + '.jpg'
-                cv.imwrite(arquivo, frame)
-                print('Salvo!')
+            # Verify if the user would like to save the last frame of the video
+            save_image(frame_com_filtro, 'video')
 
             # After the loop release the cap object
             capture.release()
