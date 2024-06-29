@@ -135,7 +135,6 @@ def setFiltroVideo(frame, opcao):
     return frame_com_filtro
 
 
-
 # Start - option to send image or record video
 print("\n--------- BEM VINDO! --------- ")
 print('Escolha uma opcao:\n')
@@ -202,6 +201,7 @@ while acao != '0':
                 else:
                     img_com_filtro = setFiltroImg(img_com_filtro, opcao)
         
+            print("Pressione 'q' para fechar a imagem")
             # Displays the new image with the filter applied
             cv.imshow('Imagem modificada', img_com_filtro)
             k = cv.waitKey(0)
@@ -226,6 +226,9 @@ while acao != '0':
             if not capture.isOpened():
                 print('Unable to open')
                 exit(0)
+            
+            print("Pressione 'q' para fechar o video")
+
             while True:
                 ret, frame = capture.read()
                 if frame is None:
@@ -276,15 +279,17 @@ while acao != '0':
             cv.imshow('image', img)
             cv.setMouseCallback('image', stk.mouse_click, {'img': img, 'stickers': stickers, 'sticker': sticker})
 
+            print("Pressione 'q' para fechar a imagem")
             # Wait until a key is pressed to proceed
             cv.waitKey(0)
             cv.destroyAllWindows()
 
             # Verify if the user would like to save the image
-            save_image(frame_com_filtro, 'imagem')
+            save_image(img, 'imagem')
         else:
             capture = cv.VideoCapture(0)
 
+            print("Pressione 'q' para fechar o video")
             # Change the window size
             capture.set(cv.CAP_PROP_FRAME_WIDTH, 800)
             capture.set(cv.CAP_PROP_FRAME_HEIGHT, 800)

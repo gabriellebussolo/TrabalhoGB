@@ -5,7 +5,7 @@ import numpy as np
 
 # Path to the stickers directory
 STICKERS_DIR = 'stickers/'  # Ensure this path is correct
-STICKER_MAX_SIZE = 50  # Define the maximum size for the larger dimension of the stickers
+STICKER_MAX_SIZE = 200  # Define the maximum size for the larger dimension of the stickers
 
 # Function to load and resize stickers while maintaining the aspect ratio
 def load_stickers():
@@ -61,7 +61,6 @@ def overlay(background, foreground, x_offset=None, y_offset=None):
     return background
 
 def mouse_click(event, x, y, flags, param):
-    stickers = param.get('stickers', [])
     img = param.get('img', None)
     sticker = param.get('sticker', None)
 
