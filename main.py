@@ -13,6 +13,7 @@ sticker = None
 x = 100
 y = 50
 texto = 'original'
+isFirstTime = True
 
 # Function to choose an image
 def choose_image():
@@ -36,6 +37,104 @@ def save_image(img, tipo):
         arquivo = arquivo + '.jpg'
         cv.imwrite(arquivo, img)
         print('Salvo!')
+
+def setFiltroImg(img, opcao):
+    if opcao == '1':
+        img_com_filtro = ft.grayscale(img)
+        print('Filtro de grayscale aplicado')
+
+    elif opcao == '2':
+        img_com_filtro = ft.negativo(img)
+        print('Filtro negativo aplicado')
+
+    elif opcao == '3':
+        print('Insira o linear que deverá ser considerado:')
+        l = int(input())
+        img_com_filtro = ft.binarizacao(img, l)
+        print('Filtro de binarização aplicado.')
+
+    elif opcao == '4':
+        cor = [242, 33, 33]
+        img_com_filtro = ft.colorizacao(img, cor)
+        print('Filtro rosado aplicado.')
+
+    elif opcao == '5':
+        img_com_filtro = ft.equalizacao_hist(img)
+        print('Filtro de equalização de um histograma aplicado.')
+
+    elif opcao == '6' or opcao == '7':
+        print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
+        print('1 - 5x5')
+        print('2 - 9x9')
+        print('3 - 15x15')
+        kernel = input()
+
+        if opcao == '6':
+            img_com_filtro = ft.average_blur(img, kernel)
+            print('Filtro de Average blur aplicado')
+        else:
+            img_com_filtro = ft.gaussian_blur(img, kernel)
+            print('Filtro de Gaussian blur aplicado.')
+
+    elif opcao == '8':
+        img_com_filtro = ft.bordas_canny(img)
+        print('Filtro de d eteccao de bordas com Canny aplicado.')
+
+    elif opcao == '9':
+        img_com_filtro = ft.dilatacao_bordas(img)
+        print('Filtro de dilatacao de bordas Canny aplicado.')
+
+    else:
+        img_com_filtro = ft.erosao(img)
+        print('Filtro de erosao das bordas aplicado.')
+
+    return img_com_filtro
+
+def setFiltroVideo(frame, opcao):
+    if opcao == '1':
+        frame_com_filtro = ft.grayscale(frame)
+        print('Filtro de grayscale aplicado')
+
+
+    elif opcao == '2':
+        frame_com_filtro = ft.negativo(frame)
+        print('Filtro negativo aplicado')
+
+    elif opcao == '3':
+        frame_com_filtro = ft.binarizacao(frame, l)
+        print('Insira o linear que deverá ser considerado:')
+
+    elif opcao == '4':
+        cor = [242, 33, 33]
+        frame_com_filtro = ft.colorizacao(frame, cor)
+        print('Filtro rosado aplicado.')
+
+    elif opcao == '5':
+        frame_com_filtro = ft.equalizacao_hist(frame)
+        print('Filtro de equalização de um histograma aplicado.')
+
+    elif opcao == '6':
+        frame_com_filtro = ft.average_blur(frame, kernel)
+        print('Filtro de Average blur aplicado')
+    elif opcao == '7':
+        frame_com_filtro = ft.gaussian_blur(frame, kernel)
+        print('Filtro de Gaussian blur aplicado')
+
+    elif opcao == '8':
+        frame_com_filtro = ft.bordas_canny(frame)
+        print('Filtro de Deteccao de bordas com Canny aplicado')
+
+    elif opcao == '9':
+        frame_com_filtro = ft.dilatacao_bordas(frame)
+        print('Filtro de Dilatacao de bordas Canny aplicado')
+
+    else:
+        frame_com_filtro = ft.erosao(frame)
+        print('Filtro de Erosao das bordas aplicado')
+   
+    return frame_com_filtro
+
+
 
 # Start - option to send image or record video
 print("\n--------- BEM VINDO! --------- ")
@@ -88,55 +187,21 @@ while acao != '0':
         opcao = input()
 
         if choice == '1':
-            if opcao == '1':
-                img_com_filtro = ft.grayscale(img)
-                print('Filtro de grayscale aplicado')
-
-            elif opcao == '2':
-                img_com_filtro = ft.negativo(img)
-                print('Filtro negativo aplicado')
-
-            elif opcao == '3':
-                print('Insira o linear que deverá ser considerado:')
-                l = int(input())
-                img_com_filtro = ft.binarizacao(img, l)
-                print('Filtro de binarização aplicado.')
-
-            elif opcao == '4':
-                cor = [242, 33, 33]
-                img_com_filtro = ft.colorizacao(img, cor)
-                print('Filtro rosado aplicado.')
-
-            elif opcao == '5':
-                img_com_filtro = ft.equalizacao_hist(img)
-                print('Filtro de equalização de um histograma aplicado.')
-
-            elif opcao == '6' or opcao == '7':
-                print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
-                print('1 - 5x5')
-                print('2 - 9x9')
-                print('3 - 15x15')
-                kernel = input()
-
-                if opcao == '6':
-                    img_com_filtro = ft.average_blur(img, kernel)
-                    print('Filtro de Average blur aplicado')
-                else:
-                    img_com_filtro = ft.gaussian_blur(img, kernel)
-                    print('Filtro de Gaussian blur aplicado.')
-
-            elif opcao == '8':
-                img_com_filtro = ft.bordas_canny(img)
-                print('Filtro de d eteccao de bordas com Canny aplicado.')
-
-            elif opcao == '9':
-                img_com_filtro = ft.dilatacao_bordas(img)
-                print('Filtro de dilatacao de bordas Canny aplicado.')
-
+            if isFirstTime == True:
+                img_com_filtro = setFiltroImg(img, opcao)
+                isFirstTime = False
             else:
-                img_com_filtro = ft.erosao(img)
-                print('Filtro de erosao das bordas aplicado.')
+                print('\nEscolha qual imagem quer aplicar o filtro:')
+                print('1 - Original')
+                print('2 - Modificada')
 
+                tipoImagem = input()
+
+                if tipoImagem == '1':
+                    img_com_filtro = setFiltroImg(img, opcao)
+                else:
+                    img_com_filtro = setFiltroImg(img_com_filtro, opcao)
+        
             # Displays the new image with the filter applied
             cv.imshow('Imagem modificada', img_com_filtro)
             k = cv.waitKey(0)
@@ -146,6 +211,7 @@ while acao != '0':
 
             cv.destroyAllWindows()
         else:
+            
             if opcao == '6' or opcao == '7':
                 print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
                 print('1 - 5x5')
@@ -165,47 +231,23 @@ while acao != '0':
                 if frame is None:
                     break
 
-                if opcao == '1':
-                    frame_com_filtro = ft.grayscale(frame)
-                    texto = 'Grayscale'
-
-                elif opcao == '2':
-                    frame_com_filtro = ft.negativo(frame)
-                    texto = 'Negativo'
-
-                elif opcao == '3':
-                    frame_com_filtro = ft.binarizacao(frame, l)
-                    texto = 'Binarizacao'
-
-                elif opcao == '4':
-                    cor = [242, 33, 33]
-                    frame_com_filtro = ft.colorizacao(frame, cor)
-                    texto = 'Rosado'
-
-                elif opcao == '5':
-                    frame_com_filtro = ft.equalizacao_hist(frame)
-                    texto = 'Equalizacao de um histograma'
-
-                elif opcao == '6':
-                    frame_com_filtro = ft.average_blur(frame, kernel)
-                    texto = 'Average blur'
-                elif opcao == '7':
-                    frame_com_filtro = ft.gaussian_blur(frame, kernel)
-                    texto = 'Gaussian blur'
-
-                elif opcao == '8':
-                    frame_com_filtro = ft.bordas_canny(frame)
-                    texto = 'Deteccao de bordas com Canny'
-
-                elif opcao == '9':
-                    frame_com_filtro = ft.dilatacao_bordas(frame)
-                    texto = 'Dilatacao de bordas Canny'
-
+                if isFirstTime == True:
+                    frame_com_filtro = setFiltroVideo(frame, opcao)
+                    isFirstTime = False
                 else:
-                    frame_com_filtro = ft.erosao(frame)
-                    texto = 'Erosao das bordas'
+                    print('\nEscolha qual video quer aplicar o filtro:')
+                    print('1 - Original')
+                    print('2 - Modificado')
+
+                    tipoVideo = input()
+
+                    if tipoVideo == '1':
+                        frame_com_filtro = setFiltroVideo(frame, opcao)
+                    else:
+                        frame_com_filtro = setFiltroVideo(frame_com_filtro, opcao)
+            
                 # Display the resulting frame
-                cv.imshow(texto, frame_com_filtro)
+                cv.imshow('video', frame_com_filtro)
 
                 # the 'q' button is set as the
                 # quitting button you may use any

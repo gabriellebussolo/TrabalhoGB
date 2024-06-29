@@ -2,7 +2,6 @@
 import cv2 as cv
 import os
 import numpy as np 
-from PIL import Image, ImageFont, ImageDraw
 
 # Path to the stickers directory
 STICKERS_DIR = 'stickers/'  # Ensure this path is correct
