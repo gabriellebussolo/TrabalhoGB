@@ -14,6 +14,7 @@ x = 100
 y = 50
 texto = 'original'
 isFirstTime = True
+imgModificada = None
 
 # Function to choose an image
 def choose_image():
@@ -40,7 +41,7 @@ def save_image(img, tipo):
 
 def setFiltroImg(img, opcao):
     if opcao == '1':
-        img_com_filtro = ft.grayscale(img)
+        img_com_filtro = ft.grayscale2(img)
         print('Filtro de grayscale aplicado')
 
     elif opcao == '2':
@@ -50,7 +51,7 @@ def setFiltroImg(img, opcao):
     elif opcao == '3':
         print('Insira o linear que deverá ser considerado:')
         l = int(input())
-        img_com_filtro = ft.binarizacao(img, l)
+        img_com_filtro = ft.binarizacao2(img, l)
         print('Filtro de binarização aplicado.')
 
     elif opcao == '4':
@@ -78,14 +79,17 @@ def setFiltroImg(img, opcao):
 
     elif opcao == '8':
         img_com_filtro = ft.bordas_canny(img)
+        img_com_filtro = cv.cvtColor(img_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
         print('Filtro de d eteccao de bordas com Canny aplicado.')
 
     elif opcao == '9':
         img_com_filtro = ft.dilatacao_bordas(img)
+        img_com_filtro = cv.cvtColor(img_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
         print('Filtro de dilatacao de bordas Canny aplicado.')
 
     else:
         img_com_filtro = ft.erosao(img)
+        img_com_filtro = cv.cvtColor(img_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
         print('Filtro de erosao das bordas aplicado.')
 
     return img_com_filtro
@@ -170,6 +174,7 @@ sticker_index = 0
 
 while acao != '0':
 
+    # Add Filter #
     if acao == '1':
         print('\nEscolha uma opcao de filtro:\n')
         print('0 - Sair')
@@ -187,7 +192,7 @@ while acao != '0':
 
         if choice == '1':
             if isFirstTime == True:
-                img_com_filtro = setFiltroImg(img, opcao)
+                imgModificada = setFiltroImg(img, opcao)
                 isFirstTime = False
             else:
                 print('\nEscolha qual imagem quer aplicar o filtro:')
@@ -197,17 +202,17 @@ while acao != '0':
                 tipoImagem = input()
 
                 if tipoImagem == '1':
-                    img_com_filtro = setFiltroImg(img, opcao)
+                    imgModificada = setFiltroImg(img, opcao)
                 else:
-                    img_com_filtro = setFiltroImg(img_com_filtro, opcao)
+                    imgModificada = setFiltroImg(imgModificada, opcao)
         
             print("Pressione 'q' para fechar a imagem")
             # Displays the new image with the filter applied
-            cv.imshow('Imagem modificada', img_com_filtro)
+            cv.imshow('Imagem modificada', imgModificada)
             k = cv.waitKey(0)
 
             # Verify if the user would like to save the image
-            save_image(img_com_filtro, 'imagem')
+            save_image(imgModificada, 'imagem')
 
             cv.destroyAllWindows()
         else:
@@ -266,6 +271,7 @@ while acao != '0':
             # Destroy all the windows
             cv.destroyAllWindows()
 
+    # Add Sticker #
     elif acao == '2':
         print("\nEscolha um sticker:\n")
         for i, (name, _) in enumerate(stickers):
@@ -276,16 +282,35 @@ while acao != '0':
         print("Clique na imagem para posicionar o sticker.")
 
         if choice == '1':
-            cv.imshow('image', img)
-            cv.setMouseCallback('image', stk.mouse_click, {'img': img, 'stickers': stickers, 'sticker': sticker})
+            if isFirstTime == True:
+                img2 = img.copy()
+                cv.imshow('image', img2)
+                cv.setMouseCallback('image', stk.mouse_click, {'img': img2, 'stickers': stickers, 'sticker': sticker})
+                isFirstTime = False
+                imgModificada = img2
+            else:
+                print('\nEscolha qual imagem você quer aplicar o filtro:')
+                print('1 - Original')
+                print('2 - Modificada')
+
+                tipoImagem = input()
+
+                if tipoImagem == '1':
+                    img2 = img.copy()
+                    cv.imshow('image', img2)
+                    cv.setMouseCallback('image', stk.mouse_click, {'img': img2, 'stickers': stickers, 'sticker': sticker})
+                    imgModificada = img2
+                else:
+                    cv.imshow('image', imgModificada)
+                    cv.setMouseCallback('image', stk.mouse_click, {'img': imgModificada, 'stickers': stickers, 'sticker': sticker})
 
             print("Pressione 'q' para fechar a imagem")
             # Wait until a key is pressed to proceed
             cv.waitKey(0)
             cv.destroyAllWindows()
-
+        
             # Verify if the user would like to save the image
-            save_image(img, 'imagem')
+            save_image(imgModificada, 'imagem')
         else:
             capture = cv.VideoCapture(0)
 

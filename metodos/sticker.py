@@ -26,6 +26,8 @@ def load_stickers():
 
 # Function to overlay stickers on the image
 def overlay(background, foreground, x_offset=None, y_offset=None):
+    
+
     bg_h, bg_w, bg_channels = background.shape
     fg_h, fg_w, fg_channels = foreground.shape
 
