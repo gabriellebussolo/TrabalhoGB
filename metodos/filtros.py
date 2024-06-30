@@ -1,9 +1,9 @@
 import cv2 as cv
 
-def grayscale(img):
+def grayscale1channel(img):
     return cv.cvtColor(img, cv.COLOR_BGR2GRAY) #converte a imagem para grayscale
 
-def grayscale2(img):
+def grayscaleBGR(img):
     img2 = img.copy()
     for i in range(img2.shape[0]): # percorre as linhas
         for j in range(img2.shape[1]): # percorre as colunas
@@ -19,18 +19,18 @@ def negativo(img):
     return cv.bitwise_not(img) #inverte cada bit da imagem
 
 def binarizacao(img, l):
-    gray = grayscale(img)
-    for i in range(gray.shape[0]): # percorre as linhas
-        for j in range(gray.shape[1]): # percorre as colunas
+    img2 = grayscale1channel(img)
+    for i in range(img2.shape[0]): # percorre as linhas
+        for j in range(img2.shape[1]): # percorre as colunas
             # se menor que o meu linear, deixo como preto
-            if gray[i, j] < l:
-                gray[i, j] = 0 # canal azul - 0 - B
+            if img2[i, j] < l:
+                img2[i, j] = 0 # canal azul - 0 - B
             else: # se for maior que o linear K, fica branco
-                gray[i, j] = 255 # canal azul - 0 - B
-    return gray
+                img2[i, j] = 255 # canal azul - 0 - B
+    return img2
 
 def binarizacao2(img, l):
-    img2 = grayscale2(img)
+    img2 = grayscaleBGR(img)
 
     # muda a cor de pixel a pixel
     for i in range(img.shape[0]): # percorre as linhas
@@ -58,7 +58,7 @@ def colorizacao(img, cor):
     return img2
             
 def equalizacao_hist(img):
-    cinza = grayscale(img)
+    cinza = grayscale1channel(img)
     img2 = cv.equalizeHist(cinza) # equaliza uma imagem que esta em grayscale e que tenha 1 canal apenas
     return cv.cvtColor(img2, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
 
@@ -79,7 +79,7 @@ def gaussian_blur(img, opcao):
         return cv.GaussianBlur(img, (15,15), 0)
 
 def bordas_canny(img):
-    gray = grayscale(img)
+    gray = grayscale1channel(img)
     return cv.Canny(gray, 100, 200)
 
 def dilatacao_bordas(img):

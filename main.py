@@ -41,7 +41,7 @@ def save_image(img, tipo):
 
 def setFiltroImg(img, opcao):
     if opcao == '1':
-        img_com_filtro = ft.grayscale2(img)
+        img_com_filtro = ft.grayscaleBGR(img)
         print('Filtro de grayscale aplicado')
 
     elif opcao == '2':
@@ -51,7 +51,8 @@ def setFiltroImg(img, opcao):
     elif opcao == '3':
         print('Insira o linear que deverá ser considerado:')
         l = int(input())
-        img_com_filtro = ft.binarizacao2(img, l)
+        img_com_filtro = ft.binarizacao(img, l)
+        img_com_filtro = cv.cvtColor(img_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
         print('Filtro de binarização aplicado.')
 
     elif opcao == '4':
@@ -96,48 +97,73 @@ def setFiltroImg(img, opcao):
 
 def setFiltroVideo(frame, opcao):
     if opcao == '1':
-        frame_com_filtro = ft.grayscale(frame)
-        print('Filtro de grayscale aplicado')
-
+        frame_com_filtro = ft.grayscaleBGR(frame)
 
     elif opcao == '2':
         frame_com_filtro = ft.negativo(frame)
-        print('Filtro negativo aplicado')
 
     elif opcao == '3':
         frame_com_filtro = ft.binarizacao(frame, l)
-        print('Insira o linear que deverá ser considerado:')
+        frame_com_filtro = cv.cvtColor(frame_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
 
     elif opcao == '4':
         cor = [242, 33, 33]
         frame_com_filtro = ft.colorizacao(frame, cor)
-        print('Filtro rosado aplicado.')
 
     elif opcao == '5':
         frame_com_filtro = ft.equalizacao_hist(frame)
-        print('Filtro de equalização de um histograma aplicado.')
 
     elif opcao == '6':
         frame_com_filtro = ft.average_blur(frame, kernel)
-        print('Filtro de Average blur aplicado')
+    
     elif opcao == '7':
         frame_com_filtro = ft.gaussian_blur(frame, kernel)
-        print('Filtro de Gaussian blur aplicado')
 
     elif opcao == '8':
         frame_com_filtro = ft.bordas_canny(frame)
-        print('Filtro de Deteccao de bordas com Canny aplicado')
+        frame_com_filtro = cv.cvtColor(frame_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
 
     elif opcao == '9':
         frame_com_filtro = ft.dilatacao_bordas(frame)
-        print('Filtro de Dilatacao de bordas Canny aplicado')
+        frame_com_filtro = cv.cvtColor(frame_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
 
     else:
         frame_com_filtro = ft.erosao(frame)
-        print('Filtro de Erosao das bordas aplicado')
+        frame_com_filtro = cv.cvtColor(frame_com_filtro, cv.COLOR_GRAY2BGR) #converts the image back to BGR to have 3 channels
    
     return frame_com_filtro
 
+def opcoesFiltro():
+    print('\nEscolha uma opcao de filtro:\n')
+    print('0 - Sair')
+    print('1 - Grayscale')
+    print('2 - Negativo')
+    print('3 - Binarização')
+    print('4 - Tom rosado')
+    print('5 - Equalização de um histograma')
+    print('6 - Blur usando média da vizinhança')
+    print('7 - Gaussian Blur')
+    print('8 - Detecção de bordas com Canny')
+    print('9 - Dilatação de bordas Canny')
+    print('10 - Erosão das bordas')
+    opcao = input()
+    return opcao
+
+def opcoesStickers():
+    print("\nEscolha um sticker:\n")
+    for i, (name, _) in enumerate(stickers):
+        print(f"{i} - {name}")
+
+    sticker_index = int(input())
+    sticker = stickers[sticker_index][1]
+    return sticker
+
+def opcoesVideo():
+    print('Pressione as seguintes teclas para continuar:')
+    print('Q para encerrar as modificações no vídeo atual.')
+    print('F para aplicar um filtro diferente no vídeo.')
+    print('I para inserir um sticker no vídeo atual.')
+    print('B para salvar o frame atual.')
 
 # Start - option to send image or record video
 print("\n--------- BEM VINDO! --------- ")
@@ -176,20 +202,9 @@ while acao != '0':
 
     # Add Filter #
     if acao == '1':
-        print('\nEscolha uma opcao de filtro:\n')
-        print('0 - Sair')
-        print('1 - Grayscale')
-        print('2 - Negativo')
-        print('3 - Binarização')
-        print('4 - Tom rosado')
-        print('5 - Equalização de um histograma')
-        print('6 - Blur usando média da vizinhança')
-        print('7 - Gaussian Blur')
-        print('8 - Detecção de bordas com Canny')
-        print('9 - Dilatação de bordas Canny')
-        print('10 - Erosão das bordas')
-        opcao = input()
+        opcao = opcoesFiltro()
 
+        # Image #
         if choice == '1':
             if isFirstTime == True:
                 imgModificada = setFiltroImg(img, opcao)
@@ -215,8 +230,9 @@ while acao != '0':
             save_image(imgModificada, 'imagem')
 
             cv.destroyAllWindows()
+        
+        # Video #
         else:
-            
             if opcao == '6' or opcao == '7':
                 print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
                 print('1 - 5x5')
@@ -231,28 +247,23 @@ while acao != '0':
             if not capture.isOpened():
                 print('Unable to open')
                 exit(0)
+
+            # Change the window size of the video
+            capture.set(cv.CAP_PROP_FRAME_WIDTH, 800)
+            capture.set(cv.CAP_PROP_FRAME_HEIGHT, 800)
             
-            print("Pressione 'q' para fechar o video")
+            # Print the keyboard actions
+            opcoesVideo()
 
             while True:
                 ret, frame = capture.read()
                 if frame is None:
                     break
 
-                if isFirstTime == True:
-                    frame_com_filtro = setFiltroVideo(frame, opcao)
-                    isFirstTime = False
-                else:
-                    print('\nEscolha qual video quer aplicar o filtro:')
-                    print('1 - Original')
-                    print('2 - Modificado')
+                frame_com_filtro = setFiltroVideo(frame, opcao)
 
-                    tipoVideo = input()
-
-                    if tipoVideo == '1':
-                        frame_com_filtro = setFiltroVideo(frame, opcao)
-                    else:
-                        frame_com_filtro = setFiltroVideo(frame_com_filtro, opcao)
+                if sticker is not None:
+                    frame_com_filtro = stk.overlay(frame_com_filtro, sticker, x, y)
             
                 # Display the resulting frame
                 cv.imshow('video', frame_com_filtro)
@@ -260,8 +271,50 @@ while acao != '0':
                 # the 'q' button is set as the
                 # quitting button you may use any
                 # desired button of your choice
-                if cv.waitKey(1) & 0xFF == ord('q'):
+                key = cv.waitKey(1) & 0xFF
+
+                if key == ord('q'):
+                    stciker = None # erase the sticker so it does not start in the next video
                     break
+                elif key == ord('f'):
+                    # Print the options of filters
+                    opcao = opcoesFiltro()
+
+                    if opcao == '6' or opcao == '7':
+                        print('Escolha uma opcao de tamanho de kernel: (quanto maior, mais blur terá)')
+                        print('1 - 5x5')
+                        print('2 - 9x9')
+                        print('3 - 15x15')
+                        kernel = input()
+                    elif opcao == '3':
+                        print('Insira o linear que deverá ser considerado:')
+                        l = int(input())
+
+                    # Print the keyboard actions
+                    opcoesVideo()
+                elif key == ord('B'):
+                    save_image(frame_com_filtro, 'video')
+                    # Print the keyboard actions
+                    opcoesVideo()
+                elif key == ord('i'):
+                    sticker = opcoesStickers()
+                # se clicar A, move o sticker para a esquerda
+                elif key == ord('a'):
+                    if sticker is not None and x-15 >= 0:
+                        x -= 15
+                # se clicar S, move o sticker para baixo
+                elif key == ord('s'):
+                    if sticker is not None and y+15 < 600:
+                        y += 15
+                # se clicar W, move o sticker para cima
+                elif key == ord('w'):
+                    if sticker is not None and y-15 >= 0:
+                        y -= 15
+                # se clicar D, move o sticker para a direita
+                elif key == ord('d'):
+                    if sticker is not None and x+15 < 800:
+                        x += 15
+
 
             # Verify if the user would like to save the last frame of the video
             save_image(frame_com_filtro, 'video')
@@ -331,7 +384,6 @@ while acao != '0':
                 cv.imshow('video', frame)
                 
                 key = cv.waitKey(1) & 0xFF
-                #cv.setMouseCallback('video', stk.mouse_click, {'img': frame, 'stickers': stickers, 'sticker': sticker})
 
                 if key == ord('q'):
                     break
