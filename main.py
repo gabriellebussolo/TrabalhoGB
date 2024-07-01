@@ -142,7 +142,6 @@ def setFiltroVideo(frame, opcao):
 # Function that shows the filter options
 def opcoesFiltro():
     print('\nEscolha uma opcao de filtro:\n')
-    print('0 - Sair')
     print('1 - Grayscale')
     print('2 - Negativo')
     print('3 - Binarização')
