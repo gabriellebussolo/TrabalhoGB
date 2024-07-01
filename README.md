@@ -1,6 +1,6 @@
 # TrabalhoGB - Processamento Gráfico
 
-Este trabalho tem como objetivo desenvolver um programa para aplicar filtros e adesivos (stickers) em imagens e vídeos utilizando a biblioteca OpenCV em Python
+Este trabalho tem como objetivo desenvolver um programa para aplicar filtros e adesivos (stickers) em imagens e vídeos utilizando a biblioteca OpenCV em Python.
 
 ### Funcionamento
 * **Escolha de Imagem ou Vídeo:** O usuário pode carregar uma imagem ou iniciar a gravação de um vídeo pela webcam.
@@ -13,5 +13,5 @@ Este trabalho tem como objetivo desenvolver um programa para aplicar filtros e a
 * Python
 * OpenCV (pip install opencv-python)
 
-### Como rodar o Projeto:
+### Como rodar o Projeto
 Para rodar o projeto, deve-se abrir o método main.py em uma IDE de sua preferência (nós recomendamos o Visual Studio Code) e executá-lo.
