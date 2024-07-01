@@ -9,8 +9,9 @@ Este trabalho tem como objetivo desenvolver um programa para aplicar filtros e a
 
 
 
-### Pré-requisitos para Rodar o Projeto
+### Pré-requisitos para rodar o projeto
 * Python
 * OpenCV (pip install opencv-python)
 
-
+### Como rodar o Projeto:
+Para rodar o projeto, basta apenas abrir o método main.py em uma IDE de sua preferência (nós recomendamos o Visual Studio Code) e executá-lo.
