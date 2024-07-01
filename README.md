@@ -14,4 +14,4 @@ Este trabalho tem como objetivo desenvolver um programa para aplicar filtros e a
 * OpenCV (pip install opencv-python)
 
 ### Como rodar o Projeto:
-Para rodar o projeto, basta apenas abrir o método main.py em uma IDE de sua preferência (nós recomendamos o Visual Studio Code) e executá-lo.
+Para rodar o projeto, deve-se abrir o método main.py em uma IDE de sua preferência (nós recomendamos o Visual Studio Code) e executá-lo.
