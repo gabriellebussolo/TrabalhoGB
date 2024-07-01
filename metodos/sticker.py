@@ -9,7 +9,6 @@ STICKER_MAX_SIZE = 200  # Define the maximum size for the larger dimension of th
 
 # Function to load and resize stickers while maintaining the aspect ratio
 def load_stickers():
-    print("load")
     stickers = []
     for filename in os.listdir(STICKERS_DIR):
         if filename.endswith(".png"):
