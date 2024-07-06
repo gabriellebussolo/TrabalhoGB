@@ -1,3 +1,5 @@
+Nomes: Cínthia Virtuoso Becher e Gabrielle Bussolo da Silva
+
 # TrabalhoGB - Processamento Gráfico
 
 Este trabalho tem como objetivo desenvolver um programa para aplicar filtros e adesivos (stickers) em imagens e vídeos utilizando a biblioteca OpenCV em Python.
